@@ -6,13 +6,13 @@ const useClasses = () => {
 
     const token = localStorage.getItem("access-token");
     const { user, loading } = useContext(AuthContext);
-   
+
 
     const { refetch: refetch, loading: classLoading, data: isClass = [] } = useQuery({
         queryKey: ['classes'],
         enabled: !!user?.email && !!localStorage.getItem("access-token"),
         queryFn: async () => {
-            const res = await fetch("http://localhost:5000/classes", {
+            const res = await fetch("https://search360-server.vercel.app/classes", {
                 method: "GET",
                 headers: {
                     authorization: `bearar ${token} `
@@ -23,9 +23,9 @@ const useClasses = () => {
 
     })
 
-   
 
-    return [refetch,classLoading,isClass];
+
+    return [refetch, classLoading, isClass];
 };
 
 export default useClasses;

@@ -20,7 +20,8 @@ import DashBoardHome from "../Dashboard/DasBoardHome/DashBoardHome";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import InstractorRoute from "./InstractorRoute";
-import ClassCard from "../Pages/ClassCard/ClassCard";
+import ClassCard from "../Pages/classCard/ClassCard";
+// import ClassCard from "../Pages/ClassCard/ClassCard";
 
 const router = createBrowserRouter([
     {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
                 path: "/",
                 element: <Home></Home>
             },
-            
+
             {
                 path: "/login",
                 element: <Login></Login>
@@ -84,14 +85,14 @@ const router = createBrowserRouter([
             {
                 path: "/dashboard/selectclass/:id",
                 element: <Payment></Payment>,
-                loader: ({params}) => fetch(`http://localhost:5000/class/select/${params.id}`)
+                loader: ({ params }) => fetch(`https://search360-server.vercel.app/class/select/${params.id}`)
             },
             {
                 path: "/dashboard/instractorinfo",
                 element: <InstractorsInfo></InstractorsInfo>
             }
-            
-    
+
+
         ]
     }
 ]);

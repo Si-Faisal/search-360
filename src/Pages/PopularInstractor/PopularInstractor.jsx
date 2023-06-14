@@ -18,7 +18,12 @@ const PopularInstructor = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/classes');
+                const token = localStorage.getItem('access-token');
+                const response = await fetch('https://search360-server.vercel.app/classes', {
+                    headers: {
+                        authorization: `bearar ${token} `
+                    }
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch class data');
                 }
@@ -30,17 +35,17 @@ const PopularInstructor = () => {
                 const counts = {};
                 console.log(counts)
                 // console.log(counts)
-                
+
                 filteredClasses.forEach((info) => {
-                    
+
                     // console.log(enrollInstractoremail)
                     const email = info?.instractoremail;
                     if (!counts[email]) {
                         counts[email] = 0;
                     }
                     if (isEnroll?.filter((enroll) => enroll?.data?.instractoremail === info?.instractoremail)) {
-                       
-                        counts[email] +=1;
+
+                        counts[email] += 1;
                     }
                 });
 
@@ -98,8 +103,8 @@ const PopularInstructor = () => {
                                 <ol className="text-left text-slate-800">
                                     {approvedClasses
                                         .filter((info) => info.instractoremail === ins.instractoremail)
-                                        .map((info,index) => (
-                                            <li key={info._id}>{index+1}.{info.classname}</li>
+                                        .map((info, index) => (
+                                            <li key={info._id}>{index + 1}.{info.classname}</li>
                                         ))}
                                 </ol>
                             </div>

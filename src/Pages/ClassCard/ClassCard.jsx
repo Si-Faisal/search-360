@@ -24,20 +24,25 @@ const ClassCard = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    
-    
-
-   
 
 
-   
 
+
+
+
+
+    const token = localStorage.getItem("access-token");
 
 
     useEffect(() => {
         const fetchClassData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/classes');
+                const token = localStorage.getItem('access-token');
+                const response = await fetch('https://search360-server.vercel.app/classes', {
+                    headers: {
+                        authorization: `bearar ${token} `
+                    }
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch class data');
                 }
@@ -54,21 +59,21 @@ const ClassCard = () => {
         fetchClassData();
     }, []);
 
-   
-    
 
 
-    
 
-    
 
-    const token = localStorage.getItem("access-token");
-    
+
+
+
+
+    // const token = localStorage.getItem("access-token");
+
     const { refetch: refetchselect, loading: selectclassLoading, data: isSelect = [] } = useQuery({
         queryKey: ['select'],
         enabled: !!user?.email && !!localStorage.getItem("access-token"),
         queryFn: async () => {
-            const res = await fetch("http://localhost:5000/class/select", {
+            const res = await fetch("https://search360-server.vercel.app/class/select", {
                 method: "GET",
                 headers: {
                     authorization: `bearar ${token} `
@@ -79,29 +84,14 @@ const ClassCard = () => {
 
     })
 
-    // if (isAdminLoading) {
-    //     return <span className="loading loading-dots loading-lg"></span>
-    // }
-
-    // if (isInstractorLoading) {
-    //     return <span className="loading loading-dots loading-lg"></span>
-    // }
-
-    // if (isLoading) {
-    //     return <span className="loading text-red-600 loading-ring loading-lg">Loading</span>;
-    // }
+   
 
     if (error) {
         return <div>Error: {error}</div>;
     }
 
 
-    // if (selectclassLoading) {
-    //     return <span className="loading text-red-600 loading-ring loading-lg">Loading</span>
-    // }
-
-    // const matchingEmail = isSelect.find(data => data.userEmail === user?.email);
-    // // console.log(matchingEmail);
+   
     const handleSelectClass = (info) => {
         if (user && user.email) {
             const userEmail = user.email;
@@ -110,7 +100,7 @@ const ClassCard = () => {
             const classinfo = { classId: info._id, instractorname, instractoremail, classname, price, description, features, seat, image, userEmail, mark }
             console.log(info)
 
-            fetch("http://localhost:5000/class/select", {
+            fetch("https://search360-server.vercel.app/class/select", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -156,18 +146,18 @@ const ClassCard = () => {
 
 
 
-    
-    console.log(cardClass);
-    console.log(isEnroll);
 
-   
-    
-    
-    
+    // console.log(cardClass);
+    // console.log(isEnroll);
+
+
+
+
+
     return (
         <div className='grid grid-cols-2 my-8 md:grid-cols-3 gap-10'>
             {
-                 cardClass.map(info => <div key={info._id} className="card w-full m-0 p-0 bg-base-100 shadow-xl">
+                cardClass.map(info => <div key={info._id} className="card w-full m-0 p-0 bg-base-100 shadow-xl">
                     <figure className="p-2 mt-3 ">
                         <img src={info.image} alt="Shoes" className=" w-full rounded-xl" />
                     </figure>
@@ -181,14 +171,14 @@ const ClassCard = () => {
                         </div>
                         <div className="card-actions justify-end">
                             {
-                                isEnroll?.find(dt => dt.data.classId === info._id && dt.data.userEmail === user?.email) ? <div className='text-success borser border-2 btn-sm rounded-lg '>You enrolled</div> : <Link to=""><button className="btn btn-sm btn-outline text-orange-700">View details</button> </Link> 
+                                isEnroll?.find(dt => dt.data.classId === info._id && dt.data.userEmail === user?.email) ? <div className='text-success borser border-2 btn-sm rounded-lg '>You enrolled</div> : <Link to=""><button className="btn btn-sm btn-outline text-orange-700">View details</button> </Link>
                             }
-                            
+
                             {
-                                isEnroll?.find(dt => dt.data.classId === info._id && dt.data.userEmail === user?.email) ? <button className="btn btn-sm btn-outline text-orange-700">Continue Class</button> : isSelect?.find(data => data.classId === info._id && data.userEmail === user?.email) ? <div className='text-success borser border-2 btn-sm rounded-lg '>selected</div> : <button onClick={() => handleSelectClass(info)} disabled={Admin?.admin || isInstractor?.instractor} className="btn btn-sm btn-outline text-orange-700">mark as select </button>   
+                                isEnroll?.find(dt => dt.data.classId === info._id && dt.data.userEmail === user?.email) ? <button className="btn btn-sm btn-outline text-orange-700">Continue Class</button> : isSelect?.find(data => data.classId === info._id && data.userEmail === user?.email) ? <div className='text-success borser border-2 btn-sm rounded-lg '>selected</div> : <button onClick={() => handleSelectClass(info)} disabled={Admin?.admin || isInstractor?.instractor} className="btn btn-sm btn-outline text-orange-700">mark as select </button>
                             }
-                            
-                            
+
+
                         </div>
                     </div>
                 </div>)

@@ -11,7 +11,7 @@ const useUserData = () => {
         queryKey: ['users'],
         enabled: !!user?.email && !!localStorage.getItem("access-token"),
         queryFn: async () => {
-            const res = await fetch("http://localhost:5000/users", {
+            const res = await fetch("https://search360-server.vercel.app/users", {
                 method: "GET",
                 headers: {
                     authorization: `bearar ${token} `

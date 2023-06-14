@@ -15,7 +15,7 @@ const Allusers = () => {
     // const { refetch: refetch, data: user = []   } = useQuery({
     //     queryKey: ['users'],
     //     queryFn: async () => {
-    //         const res = await fetch("http://localhost:5000/users", {
+    //         const res = await fetch("https://search360-server.vercel.app/users", {
     //             method: "GET",
     //             headers: {
     //                 authorization: `bearar ${token} `
@@ -32,12 +32,15 @@ const Allusers = () => {
     const handlechangeStatus = (id, selectValue) => {
         // const info = { id, selectValue }
         // console.log(info);
-        fetch(`http://localhost:5000/users/admin/${id}`, {
+        const token = localStorage.getItem('access-token');
+        fetch(`https://search360-server.vercel.app/users/admin/${id}`, {
             method: "PATCH",
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                authorization: `bearar ${token} `
+                
             },
-            body: JSON.stringify({ status: selectValue  })
+            body: JSON.stringify({ status: selectValue })
 
 
         })
@@ -47,13 +50,13 @@ const Allusers = () => {
                 if (data.modifiedCount) {
 
                     refetch(),
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: `Congrats  You have been ${selectValue}`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: `Congrats  You have been ${selectValue}`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                 }
             })
 
@@ -70,14 +73,14 @@ const Allusers = () => {
 
 
 
-    
 
-    const handleSwitch = (inputValue,id) => {
+
+    const handleSwitch = (inputValue, id) => {
         // setValue(inputValue);
         handlechangeStatus(id, inputValue)
-        console.log(inputValue,id)
+        console.log(inputValue, id)
 
-        
+
     };
 
     // console.log(value)
@@ -107,9 +110,9 @@ const Allusers = () => {
                                 }</td> */}
                                 <td>
                                     <div className="dropdown z-4">
-                                        <label tabIndex={0} className="m-1 btn z-4 ">{data.role? data.role:"student"}</label>
-                                        <ul tabIndex={0}  className="p-2 shadow menu dropdown-content bg-base-100  block rounded-box ">
-                                            <li><a onClick={()=>handleSwitch("admin",data._id)}> admin</a></li>
+                                        <label tabIndex={0} className="m-1 btn z-4 ">{data.role ? data.role : "student"}</label>
+                                        <ul tabIndex={0} className="p-2 shadow menu dropdown-content bg-base-100  block rounded-box ">
+                                            <li><a onClick={() => handleSwitch("admin", data._id)}> admin</a></li>
                                             <li><a onClick={() => handleSwitch("instractor", data._id)}>instractor</a></li>
                                             {/* <li><a onClick={() => handleSwitch("student", data._id)}>student</a></li> */}
                                         </ul>

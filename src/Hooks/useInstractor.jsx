@@ -12,7 +12,7 @@ const useInstractor = () => {
         queryKey: ['instractor', user?.email],
         enabled: !!user?.email && !!localStorage.getItem("access-token"),
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/users/instractor/${user?.email}`, {
+            const res = await fetch(`https://search360-server.vercel.app/users/instractor/${user?.email}`, {
                 method: "GET",
                 headers: {
                     authorization: `bearer ${token}`

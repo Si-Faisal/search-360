@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../../../AuthProvider/AuthProvider';
-import {   useQuery, useQueryClient, QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient, QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -16,7 +16,7 @@ const MySelectClass = () => {
         queryKey: ['select'],
         enabled: !!user?.email && !!localStorage.getItem("access-token"),
         queryFn: async () => {
-            const res = await fetch("http://localhost:5000/class/select", {
+            const res = await fetch("https://search360-server.vercel.app/class/select", {
                 method: "GET",
                 headers: {
                     authorization: `bearar ${token} `
@@ -30,10 +30,10 @@ const MySelectClass = () => {
 
 
     useEffect(() => {
-        
+
         isSelect.map(data => {
             if (user.email === data.userEmail) {
-                const mySelectClass = isSelect.filter(data=> data.userEmail===user.email);
+                const mySelectClass = isSelect.filter(data => data.userEmail === user.email);
                 setSelectClass(mySelectClass)
             }
         })
@@ -44,9 +44,9 @@ const MySelectClass = () => {
 
     const notify = () => toast('we remove the selected class!');
 
-    const handleRemoveCard =async (id) => {
+    const handleRemoveCard = async (id) => {
         try {
-            const res = await fetch(`http://localhost:5000/class/select/${id}`, {
+            const res = await fetch(`https://search360-server.vercel.app/class/select/${id}`, {
                 method: 'DELETE',
                 headers: {
                     authorization: `bearar ${token}`,
@@ -82,13 +82,13 @@ const MySelectClass = () => {
                                 <div className='w-1/2'>
                                     <h2 className='font-bold text-xl text-success'>Features</h2>
                                     <ol>
-                                        {data.features.slice(0, 2).map((info, index) => <li key={index} className='text-left'>{index + 1}.{info.name.slice(0,40)}...</li>)}
-                                        
+                                        {data.features.slice(0, 2).map((info, index) => <li key={index} className='text-left'>{index + 1}.{info.name.slice(0, 40)}...</li>)}
+
                                     </ol>
                                 </div>
                                 <div className='w-1/2'>
                                     <h2 className='text-xl text-success'>Price: <span className='text-red-600 text-2xl font-bold'>${data.price}</span></h2>
-                                    <h2 className='text-xl text-success'>Seat: <span className='text-red-600 text-2xl font-bold'>{data.seat }</span></h2>
+                                    <h2 className='text-xl text-success'>Seat: <span className='text-red-600 text-2xl font-bold'>{data.seat}</span></h2>
                                 </div>
                             </div>
                             <div className="card-actions  justify-end">
@@ -97,9 +97,9 @@ const MySelectClass = () => {
                                 <Link to={`/dashboard/selectclass/${data._id}`}><button className="btn  btn-secondary  ">Enroll Now</button></Link>
                             </div>
                         </div>
-                    </div>  )
+                    </div>)
                 }
-                
+
 
             </div>
             <ToastContainer
@@ -114,7 +114,7 @@ const MySelectClass = () => {
                 pauseOnHover
                 theme="colored"
             />
-            
+
         </div>
     );
 };

@@ -41,8 +41,8 @@ const SignUp = () => {
         const formData = new FormData();
         formData.append('image', imageFile);
 
-        
-        fetch('http://localhost:5000/upload', {
+
+        fetch('https://search360-server.vercel.app/upload', {
             method: 'POST',
             body: formData
         })
@@ -67,7 +67,7 @@ const SignUp = () => {
 
                                     const token = localStorage.getItem('access-token');
 
-                                    fetch('http://localhost:5000/users', {
+                                    fetch('https://search360-server.vercel.app/users', {
                                         method: 'POST',
                                         headers: {
                                             'content-type': 'application/json',
@@ -98,7 +98,7 @@ const SignUp = () => {
             })
             .catch((error) => console.log(error));
 
-       
+
     };
 
     return (
@@ -218,6 +218,9 @@ const SignUp = () => {
                                         })}
                                     />
                                     {errors.repassword && <p className="errorMsg">{errors.repassword.message}</p>}
+                                </div>
+                                <div>
+                                    you already signup? please <Link>Login</Link>
                                 </div>
                             </div>
                             <div className="form-control mt-6">

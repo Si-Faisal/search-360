@@ -38,10 +38,10 @@ const AddClass = () => {
         const token = localStorage.getItem('access-token');
         const formData = new FormData();
         formData.append('image', imageFile);
-        
-        fetch('http://localhost:5000/upload', {
+
+        fetch('https://search360-server.vercel.app/upload', {
             method: 'POST',
-           
+
             body: formData
         })
             .then(res => res.json())
@@ -49,15 +49,16 @@ const AddClass = () => {
                 if (imgResponse.success) {
                     const imgURL = imgResponse.data.display_url;
                     console.log(imgURL);
-                    
+
                     const { classname, price, description, features, instractoremail, instractorname, seat } = data;
                     const status = "pending";
 
                     const classDetails = {
-                        instractorname, instractoremail, classname, price: parseFloat(price), description, features, seat, instractorImage: user.photoURL,  image: imgURL ,status}
+                        instractorname, instractoremail, classname, price: parseFloat(price), description, features, seat, instractorImage: user.photoURL, image: imgURL, status
+                    }
                     console.log(classDetails)
                     // axiosSecure.post('/menu', newItem)
-                    fetch("http://localhost:5000/classes", {
+                    fetch("https://search360-server.vercel.app/classes", {
                         method: "POST",
                         headers: {
                             "content-type": "application/json",
@@ -97,11 +98,11 @@ const AddClass = () => {
                     <label className="label">
                         <span className="label-text font-semibold">Instractor  Name*</span>
                     </label>
-                    <input value={user?.displayName}  type="text" placeholder="Your Name "
+                    <input value={user?.displayName} type="text" placeholder="Your Name "
                         {...register("instractorname", { required: true, maxLength: 120 })}
                         className="input input-bordered w-full " />
 
-                    
+
                 </div>
                 <div className="form-control w-full mb-4">
                     <label className="label">
@@ -141,7 +142,7 @@ const AddClass = () => {
                     </label>
                     <textarea {...register("description", { required: true })} className="textarea textarea-bordered h-auto" placeholder="class Description"></textarea>
                 </div>
-                
+
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Features</span>

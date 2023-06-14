@@ -12,7 +12,7 @@ const useEnroll = () => {
         queryKey: ['enroll'],
         enabled: !!user?.email && !!localStorage.getItem("access-token"),
         queryFn: async () => {
-            const res = await fetch("http://localhost:5000/class/enroll", {
+            const res = await fetch("https://search360-server.vercel.app/class/enroll", {
                 method: "GET",
                 headers: {
                     authorization: `bearar ${token} `

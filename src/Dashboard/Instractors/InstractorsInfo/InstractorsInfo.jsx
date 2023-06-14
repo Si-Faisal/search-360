@@ -12,7 +12,12 @@ const InstractorsInfo = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/classes');
+                const token = localStorage.getItem('access-token');
+                const response = await fetch('https://search360-server.vercel.app/classes', {
+                    headers: {
+                        authorization: `bearar ${token} `
+                    }
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch class data');
                 }
@@ -41,10 +46,10 @@ const InstractorsInfo = () => {
                 });
 
                 setInstructors(uniqueInstructors);
-                setIsLoading(false); 
+                setIsLoading(false);
             } catch (error) {
                 setError(error.message);
-                setIsLoading(false); 
+                setIsLoading(false);
             }
         };
 
@@ -73,15 +78,15 @@ const InstractorsInfo = () => {
                         <h3 className='font-bold text-xl text-success'>Name of Classes:</h3>
                         <ol className='text-left text-slate-800'>
                             {instructorClasses[ins.instractoremail].map((className, index) => (
-                                <li key={index}>{index +1 } . {className}</li>
+                                <li key={index}>{index + 1} . {className}</li>
                             ))}
                         </ol>
-                        
+
                     </div>
                 </div>)
             }
         </div>
-        
+
     );
 };
 
